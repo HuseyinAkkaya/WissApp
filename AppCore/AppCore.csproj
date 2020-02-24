@@ -55,11 +55,16 @@
     <Compile Include="Context\IDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Base\RepositoryBase.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Service\Base\ServiceBase.cs" />
+    <Compile Include="UnitOfWork\Base\UnitOfWorkBase.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
