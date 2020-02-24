@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AppCore.Repository.Base;
 
-namespace AppCore.UnitOfWork.Base
+namespace AppCore.UnitOFWork.Base
 {
     public abstract class UnitOfWorkBase : IDisposable
     {

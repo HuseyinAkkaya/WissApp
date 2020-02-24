@@ -43,7 +43,7 @@ namespace AppCore.Repository.Base
 
         }
 
-        public virtual IQueryable<TEntity> GetEntityQuary()
+        public virtual IQueryable<TEntity> GetEntityQuery()
         {
             try
             {
@@ -56,7 +56,7 @@ namespace AppCore.Repository.Base
 
         }
 
-        public virtual IQueryable<TEntity> GetEntityQuary(Expression<Func<TEntity, bool>> predicate)
+        public virtual IQueryable<TEntity> GetEntityQuery(Expression<Func<TEntity, bool>> predicate)
         {
             try
             {

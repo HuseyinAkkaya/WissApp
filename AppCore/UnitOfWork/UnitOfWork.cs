@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AppCore.Repository;
 using AppCore.Repository.Base;
-using AppCore.UnitOfWork.Base;
+using AppCore.UnitOFWork.Base;
 
-namespace AppCore.UnitOfWork
+namespace AppCore.UnitOFWork
 {
     public class UnitOfWork:UnitOfWorkBase
     {
