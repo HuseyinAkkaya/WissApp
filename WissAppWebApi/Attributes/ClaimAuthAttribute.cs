@@ -11,12 +11,13 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using WissAppWebApi.Configs;
 
 namespace WissAppWebApi.Attributes
 {
     public class ClaimAuthAttribute : AuthorizationFilterAttribute
     {
-        public ClaimAuthAttribute(string claimType,string claimValue)
+        public ClaimAuthAttribute(string claimType, string claimValue)
         {
             ClaimType = claimType;
             ClaimValue = claimValue;
@@ -32,11 +33,18 @@ namespace WissAppWebApi.Attributes
                 return Task.FromResult<object>(null);
             }
 
+
+
             if (!principal.Identity.IsAuthenticated)
             {
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
                 return Task.FromResult<object>(null);
 
+            }
+            if (UserConfig.GetLoggedOutUser().Contains(principal.FindFirst(e => e.Type == "user").Value))
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+                return Task.FromResult<object>(null);
             }
 
             if (!(principal.HasClaim(e => e.Type.ToLower().Equals(ClaimType.ToLower()) &&

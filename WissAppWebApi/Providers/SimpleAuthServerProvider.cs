@@ -10,6 +10,7 @@ using AppCore.Services;
 using Microsoft.Owin.Security.OAuth;
 using WissAppEF.Contexts;
 using WissAppEntities.Entities;
+using WissAppWebApi.Configs;
 
 namespace WissAppWebApi.Providers
 {
@@ -34,6 +35,7 @@ namespace WissAppWebApi.Providers
 
                     if (user != null)
                     {
+                        UserConfig.RemoveLoggedOutUser(user.UserName);
                         var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                         identity.AddClaim(new Claim("user", user.UserName));
                         identity.AddClaim(new Claim("Role", user.Roles.Name));
@@ -46,6 +48,12 @@ namespace WissAppWebApi.Providers
                     }
                 }
             }
+        }
+
+        public override Task TokenEndpointResponse(OAuthTokenEndpointResponseContext context)
+        {
+            var accesToken = context.AccessToken; //gelen tokenı almaya yarar
+            return Task.FromResult<object>(null);
         }
     }
 }

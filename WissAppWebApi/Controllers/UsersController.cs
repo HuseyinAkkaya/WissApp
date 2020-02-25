@@ -4,11 +4,13 @@ using Newtonsoft.Json;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Claims;
 using System.Web.Http;
 using AutoMapper.QueryableExtensions;
 using WissAppEF.Contexts;
 using WissAppEntities.Entities;
 using WissAppWebApi.Attributes;
+using WissAppWebApi.Configs;
 using WissAppWebApi.Models;
 
 namespace WissAppWebApi.Controllers
@@ -43,7 +45,7 @@ namespace WissAppWebApi.Controllers
                 return BadRequest();
             }
         }
-        
+
         //[AllowAnonymous]
         public IHttpActionResult Get(int id)
         {
@@ -51,7 +53,7 @@ namespace WissAppWebApi.Controllers
             {
                 var entitie = userService.GetEntity(id);
                 var model = Mapping.mapper.Map<UsersModel>(entitie);
-                
+
                 return Ok(model);
             }
             catch (Exception e)
@@ -147,6 +149,31 @@ namespace WissAppWebApi.Controllers
                 return BadRequest();
             }
         }
+
+        [Route("Logout")]
+        [HttpGet]
+        public IHttpActionResult Logout()
+        {
+            var principle = RequestContext.Principal as ClaimsPrincipal;
+            if (principle.Identity.IsAuthenticated)
+            {
+                UserConfig.AddLoggedOutUser(principle.FindFirst(e=>e.Type =="user").Value);
+                return Ok("User logged out");
+            }
+
+            return BadRequest("User didn't login!");
+
+        }
+
+        
+        [Route("LoggedOutUsers")]
+        [AllowAnonymous]
+        [HttpGet]
+        public IHttpActionResult LogedOutUsers()
+        {
+            return Ok(UserConfig.GetLoggedOutUser());
+        }
+
 
 
     }
