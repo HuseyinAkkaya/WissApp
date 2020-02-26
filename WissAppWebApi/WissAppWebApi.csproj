@@ -108,6 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -116,11 +117,13 @@
     <Compile Include="Attributes\ClaimAuthAttribute.cs" />
     <Compile Include="Configs\MappingConfig.cs" />
     <Compile Include="Configs\UserConfig.cs" />
+    <Compile Include="Controllers\UserMessagesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappings\Mapping.cs" />
+    <Compile Include="Models\UsersMessagesModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthServerProvider.cs" />

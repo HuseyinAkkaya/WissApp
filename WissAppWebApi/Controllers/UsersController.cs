@@ -3,7 +3,10 @@ using AppCore.Services.Base;
 using Newtonsoft.Json;
 using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Web.Http;
 using AutoMapper.QueryableExtensions;
@@ -65,9 +68,11 @@ namespace WissAppWebApi.Controllers
 
         public IHttpActionResult Post(UsersModel usersModel)
         {
+
             try
             {
                 var entity = Mapping.mapper.Map<Users>(usersModel);
+                entity.IsActive = true;
                 userService.AddEntity(entity);
                 var model = Mapping.mapper.Map<UsersModel>(entity);
                 return Ok(model);
@@ -157,7 +162,7 @@ namespace WissAppWebApi.Controllers
             var principle = RequestContext.Principal as ClaimsPrincipal;
             if (principle.Identity.IsAuthenticated)
             {
-                UserConfig.AddLoggedOutUser(principle.FindFirst(e=>e.Type =="user").Value);
+                UserConfig.AddLoggedOutUser(principle.FindFirst(e => e.Type == "user").Value);
                 return Ok("User logged out");
             }
 
@@ -165,13 +170,65 @@ namespace WissAppWebApi.Controllers
 
         }
 
-        
+
         [Route("LoggedOutUsers")]
         [AllowAnonymous]
         [HttpGet]
         public IHttpActionResult LogedOutUsers()
         {
             return Ok(UserConfig.GetLoggedOutUser());
+        }
+
+       
+
+
+
+
+        [Route("Sendmail")]
+        [AllowAnonymous]
+        [HttpGet]
+        public IHttpActionResult SendMail()
+        {
+            try
+            {
+                var sc = new System.Net.Mail.SmtpClient
+                {
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Host = "smtp.live.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    Timeout = 20000,
+                    Credentials = new NetworkCredential(@"mail", @"password")
+                };
+                MailMessage mail = new MailMessage();
+
+                mail.From = new MailAddress("kadioglu50@hotmail.com", "Hüseyin AKKAYA");
+
+                mail.To.Add("huseyin.akkaya93@gmail.com");
+                //mail.To.Add("alici2@mail.com");
+
+                //mail.CC.Add("alici3@mail.com");
+                //mail.CC.Add("alici4@mail.com");
+
+                mail.Subject = "E-Posta Konusu";
+                mail.IsBodyHtml = true;
+                mail.Body = "E-Posta İçeriği";
+
+                //mail.Attachments.Add(new Attachment(@"C:\Rapor.xlsx"));
+                //mail.Attachments.Add(new Attachment(@"C:\Sonuc.pptx"));
+
+                sc.Send(mail);
+                return Ok("OK");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Ok("OK" + e);
+
+            }
+
+
         }
 
 

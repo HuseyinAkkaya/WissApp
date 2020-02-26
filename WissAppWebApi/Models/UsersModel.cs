@@ -26,5 +26,7 @@ namespace WissAppWebApi.Models
         public string Gender { get; set; }
 
         public bool IsActive { get; set; }
+        public string Role { get; set; }
+
     }
 }

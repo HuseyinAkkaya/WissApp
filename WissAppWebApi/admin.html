@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "api/Users",
+                type: "GET",
+                contentType: "application/json",
+                headers: { "Authorization" : "bearer wZIblvEIynKztsGCn_m8dKbh8-bBFgfMBn1V_TJ2UuVnYZfxGM35OuSEIkmfe4GksO5lJzUw2_s1N_AEmpzqZBlSHfWzSl55vE2k43UwPiVfepmZVI5bZ1iLCDVnW69Iz5Ktk4spFhK9srw7zL5mV4SHwC71b7RgD0cIT8SU28nxjtBW6L6YisB8Vit4I4LYanisNl3Cf8cUUl5BAgR1Fpr3YVlBv5VaoDdK0Przfn8" },
+                success: function (response) {
+                    var html = '<table id="example" class="display" style="width:100%">';
+                    html += '<thead>';
+                    html += '<tr>';
+                    html += '<th>User Name</th>';
+                    html += '<th>E-Mail</th>';
+                    html += '<th>School</th>';
+                    html += '<th>Location</th>';
+                    html += '</thead>';
+                    html += '<tbody>';
+                    $.each(response, function (i, data) {
+                            html += '<tr><td>' + data.UserName + '</td>';
+                            html += '<td>' + data.Email + '</td>';
+                            html += '<td>' + data.School + '</td>';
+                            html += '<td>' + data.Location + '</td>';
+                        });
+                    html += '</tbody>';
+                    html += '</table>';
+                    $("#div_users").html(html);
+
+                    $('#example').DataTable({
+
+
+                        
+                        "language": {
+                            "url": "dataTables.german.lang"
+                        
+                        //"language": {
+                        //    "decimal":        "",
+                        //    "emptyTable":     "No data available in table",
+                        //    "info":           "_TOTAL_ kayıttan _START_ ve _END_ kayıt görüntüleniyor.",
+                        //    "infoEmpty":      "Showing 0 to 0 of 0 entries",
+                        //    "infoFiltered":   "(_MAX_ kayıt arasından filitrelendi)",
+                        //    "infoPostFix":    "",
+                        //    "thousands":      ",",
+                        //    "lengthMenu":     "Sayfa başına _MENU_ kayıt görüntüle.",
+                        //    "loadingRecords": "Yükleniyor...",
+                        //    "processing":     "İşleniyor...",
+                        //    "search":         "Ara:",
+                        //    "zeroRecords":    "Kayıt bulunmadı.",
+                        //    "paginate": {
+                        //        "first":      "İlk",
+                        //        "last":       "Son",
+                        //        "next":       "Sonraki",
+                        //        "previous":   "Önceki"
+                        //    },
+                        //    "aria": {
+                        //        "sortAscending":  ": activate to sort column ascending",
+                        //        "sortDescending": ": activate to sort column descending"
+                        //    }
+                        }
+                    } );
+
+                },
+                error: function (a) {
+                    alert("An error accured");
+                }
+            });
+
+            
+
+
+        });
+
+
+
+    </script>
+</head>
+<body>
+    <div id="div_users">
+
+    </div>
+</body>
+</html>
